@@ -1,20 +1,18 @@
 function minimumBribes(q){
-  let minBribes=0;
-  let initialQueue=[...q].sort((a,b)=>a-b);
-  for (let i=0; i<initialQueue.length;i++){
-    let value=q[i]
-    let newIndex=q.indexOf(value)
-    let originalIndex=initialQueue.indexOf(value)
-    if (newIndex<originalIndex-2){
+  let bribes=0;
+  for (let i=0; i<q.length; i++){
+    if (q[i]>i+3){
       return console.log('Too chaotic')
-    } 
-    
-    let delta=originalIndex-newIndex;
-    if (delta>0){
-      minBribes+=delta
+    }
+    for (let j=Math.max(0,q[i]-2); j<i;j++){
+      // console.log(q[i],q[j])
+      if (q[i]<q[j]){
+        // console.log('bribed')
+        bribes++
+      }
     }
   }
-  return console.log(minBribes)
+  return console.log(bribes)
 }
 
 // Max bribes =2
