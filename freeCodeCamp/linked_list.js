@@ -16,12 +16,12 @@ function LinkedList() {
   };
 
   this.add = function(element){
+    var currentNode=head;
     var node = new Node(element);
     if(head === null){
         head = node;
     } else {
-        currentNode = head;
-
+      currentNode = head;
         while(currentNode.next){
             currentNode  = currentNode.next;
         }
@@ -61,10 +61,53 @@ function LinkedList() {
       let cur=head;
       while (cur.element != ele && cur.next){
         index++
-        cur=head.next
+        cur=cur.next
       }
       if (cur.element!=ele) return -1
       return index
+    }
+
+    this.elementAt=(num)=>{
+      let index=0;
+      let cur=head;
+      while (num>index){
+        cur=cur.next;
+        if (!cur) return undefined;
+        index++
+      }
+      return cur.element
+    }
+
+    this.removeAt=(num)=>{
+      let index=0;
+      let cur=head;
+      if (num > this.size()-1 || num <0) return null
+      while (num-1>index){
+        cur=cur.next;
+        if (!cur) return null;
+        index++
+      }
+      let removed=cur.next;
+      if (cur.next){
+        cur.next=cur.next.next;
+      }
+      length--
+      return removed.element
+    }
+
+    this.addAt=(idx,ele)=>{
+      let index=0;
+      let cur=head;
+
+      if (idx < 0 || idx > this.size()-1) return false;
+      while (index<idx-1){
+        index++;
+        cur=cur.next;
+      }
+      let addedNode=new Node(ele);
+      addedNode.next=cur.next;
+      cur.next=addedNode;
+      length++;
     }
   };
 
@@ -72,4 +115,8 @@ function LinkedList() {
   linked.add('gachi')
   linked.add('bass')
   linked.add('stupid')
-  console.log(linked.indexOf('stupid'))
+  linked.add('ahaha')
+  linked.add('whatt')
+  linked.add('ahasha')
+
+  console.log(linked.removeAt(6))
