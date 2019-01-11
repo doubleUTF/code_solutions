@@ -192,29 +192,40 @@ function BinarySearchTree() {
     this.remove=(num)=>{
       let findResult=this.find(num);
       if (!findResult || !findResult.node) return null;
-      if (!findResult.parent) {
-        findResult.node.left ? findResult.node.left : findResult.node.right;
-        return this.root=(findResult.node.left ? findResult.node.left : findResult.node.right);
+      let target=findResult.node;
+      let parent=findResult.parent;
+      
+      let targetChildren=(target.left ? 1 : 0) + (target.right ? 1 : 0)
+      if (!parent) {
+        // Only works when root node only has one child
+        return this.root=target.left ? target.left : target.right;
       }
-      let children=(findResult.node.left ? 1 : 0) + (findResult.node.right ? 1 : 0)
       let direction;
 
-      if (findResult.parent.left){
-        if (findResult.parent.left.value==num){
+      if (parent.left){
+        if (parent.left.value==num){
           direction='left';
         } else {
           direction='right';
         }
-      } 
-      console.log(direction)
+      } else {
+        direction='right';
+      }
+      console.log('direction',direction)
+      console.log('children',children)
         switch (children){
           case 0:
-            findResult.parent[direction]=null;
+            parent[direction]=null;
             break;
           case 1:
-            findResult.parent.right= findResult.node.left ? findResult.node.left : findResult.node.right;
+            parent[direction]= target.left ? target.left : target.right;
             break;
           case 2:
+            // console.log(this.findMin(findResult.node.right))
+            // let minRightTree=this.findMin(findResult.node.right);
+            // check if replacement node is direct child of node to be removed
+            // if (minRightTree.parent.value==)
+            break
         }
     }
 
@@ -241,23 +252,40 @@ function BinarySearchTree() {
      return temp==int ? result(temp,previous) : null;
     }
 
+    this.findMin=(node)=>{
+      // Returns smallest node and its parent of a tree node
+      // Only returns parent when node has children
+      let cur =node;
+      let parent;
+      while (cur.left){
+        parent=cur;
+        cur=cur.left
+      }    
+      let result=(node,parent)=>{
+        return {node,parent}
+      }
+      return result(cur,parent);
+    }
+
     
 }
 
 let bs=new BinarySearchTree();
 
 
-bs.add(5)
-bs.add(4)
-bs.add(3)
-bs.remove(4)
-// bs.add(6)
-// bs.add(8)
+// bs.add(5)
+// bs.add(10)
 // bs.add(7)
-// bs.add(9)
-// bs.add(3)
-// bs.add(1)
-// bs.add(2)
+// bs.add(8)
+// bs.add(15)
+// bs.add(20)
+// bs.add(13)
+// bs.add(11)
+// bs.add(12)
 
-// bs.add(5); bs.add(3); bs.add(7); bs.add(6); bs.add(10); bs.add(12); bs.remove(3); bs.remove(12); bs.remove(10)
+bs.add(5)
+bs.add(8)
+bs.add(10)
+bs.add(4)
+bs.remove(5)
 console.log(bs.root)
