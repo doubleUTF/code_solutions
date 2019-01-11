@@ -196,12 +196,12 @@ function BinarySearchTree() {
       let parent=findResult.parent;
       
       let targetChildren=(target.left ? 1 : 0) + (target.right ? 1 : 0)
+      let direction;
+      
       if (!parent) {
         // Only works when root node only has one child
         return this.root=target.left ? target.left : target.right;
       }
-      let direction;
-
       if (parent.left){
         if (parent.left.value==num){
           direction='left';
