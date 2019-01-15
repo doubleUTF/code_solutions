@@ -197,40 +197,61 @@ function BinarySearchTree() {
       
       let targetChildren=(target.left ? 1 : 0) + (target.right ? 1 : 0)
       let direction;
-      
-      if (!parent && targetChildren<2) {
-        // If the target node is root node and has 1 or less child nodes.
-        return this.root=target.left ? target.left : target.right;
+      let newNode;
+      // Root node
+      if (!parent) {
+        if (targetChildren<2){
+          // Target node is root node and has 1 or less child nodes.
+          return this.root=target.left ? target.left : target.right;
+        } else {
+          // Handle removal of root node with 2 children
+            let minResult=this.findMin(target.right);
+            console.log(minResult)
+            //  Leaf node
+            if (!minResult.node.right){
+              // new node inherits root nodes children, parent node of target removes left
+              let newNode=target.node;
+              newNode.left=target.left;
+              newNode.right=target.right;
+              return;
+            }
+            //  Min node of right subtree has a right node
+            // if ()
+            return
+        }
+        
       }
-      if (parent.left){
-        if (parent.left.value==num){
-          direction='left';
+      // Node is not root node
+      else {
+        if (parent.left){
+          parent.left.value==num ? direction='left' : direction='right'
         } else {
           direction='right';
         }
-      } else {
-        direction='right';
-      }
-      console.log('direction',direction)
-      console.log('children',children)
-        switch (children){
-          case 0:
+          console.log('direction',direction)
+          console.log('children',targetChildren)
+          switch (targetChildren){
+            case 0:
             parent[direction]=null;
             break;
-          case 1:
+            case 1:
             parent[direction]= target.left ? target.left : target.right;
             break;
-          case 2:
+            case 2:
             // Check if target node is root node or not
-            
+            if (!parent){
+              // let minResult=this.findMin(target.right)
+              // console.log(minResult)
+            }
             // console.log(this.findMin(findResult.node.right))
             // let minRightTree=this.findMin(findResult.node.right);
             // check if replacement node is direct child of node to be removed
             // if (minRightTree.parent.value==)
             break
+          }
         }
-    }
-
+      }
+      
     this.find=(int)=>{
       // return object with parent and node itself
       let cur=this.root;
@@ -257,6 +278,7 @@ function BinarySearchTree() {
     this.findMin=(node)=>{
       // Returns smallest node and its parent of a tree node
       // Only returns parent when node has children
+      // Need to rework this method. Won't return parent node if node provided is the min node. 
       let cur =node;
       let parent;
       while (cur.left){
@@ -290,4 +312,5 @@ bs.add(8)
 bs.add(10)
 bs.add(4)
 bs.remove(5)
-console.log(bs.root)
+// console.log(bs.find(8))
+// console.log(bs.root)
