@@ -205,7 +205,8 @@ function BinarySearchTree() {
           return this.root=target.left ? target.left : target.right;
         } else {
           // Handle removal of root node with 2 children
-            let minResult=this.findMin(target.right);
+            let minNum=this.findMin(target.right);
+            let minResult=this.find(minNum);
             console.log(minResult)
             //  Leaf node
             if (!minResult.node.right){
@@ -276,19 +277,12 @@ function BinarySearchTree() {
     }
 
     this.findMin=(node)=>{
-      // Returns smallest node and its parent of a tree node
-      // Only returns parent when node has children
-      // Need to rework this method. Won't return parent node if node provided is the min node. 
+      // Returns smallest number of a node subtree
       let cur =node;
-      let parent;
       while (cur.left){
-        parent=cur;
         cur=cur.left
       }    
-      let result=(node,parent)=>{
-        return {node,parent}
-      }
-      return result(cur,parent);
+      return cur.value;
     }
 
     
