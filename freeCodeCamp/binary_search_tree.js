@@ -207,17 +207,25 @@ function BinarySearchTree() {
           // Handle removal of root node with 2 children
             let minNum=this.findMin(target.right);
             let minResult=this.find(minNum);
-            console.log(minResult)
+            // console.log(minResult)
+            //  Right min node is direct child of root node +
+            if (this.root.value==minResult.parent.value){
+              this.root.value=minNum;
+              this.root.right=minResult.node.right;
+              return
+            }
             //  Leaf node
             if (!minResult.node.right){
-              // new node inherits root nodes children, parent node of target removes left
-              let newNode=target.node;
-              newNode.left=target.left;
-              newNode.right=target.right;
+              // new node inherits root nodes children, parent node of target removes left +
+              this.root.value=minNum;
+              minResult.parent.left=null;
               return;
             }
-            //  Min node of right subtree has a right node
-            // if ()
+            //  Min node of right subtree has a right node +
+            else {
+              this.root.value=minNum;
+              minResult.parent.left=minResult.node.right
+            }
             return
         }
         
@@ -229,26 +237,29 @@ function BinarySearchTree() {
         } else {
           direction='right';
         }
-          console.log('direction',direction)
-          console.log('children',targetChildren)
+          // console.log('direction',direction)
+          // console.log('children',targetChildren)
           switch (targetChildren){
             case 0:
-            parent[direction]=null;
+              parent[direction]=null;
             break;
             case 1:
-            parent[direction]= target.left ? target.left : target.right;
+              parent[direction]= target.left ? target.left : target.right;
             break;
             case 2:
-            // Check if target node is root node or not
-            if (!parent){
-              // let minResult=this.findMin(target.right)
-              // console.log(minResult)
-            }
-            // console.log(this.findMin(findResult.node.right))
-            // let minRightTree=this.findMin(findResult.node.right);
-            // check if replacement node is direct child of node to be removed
-            // if (minRightTree.parent.value==)
-            break
+              let minNum=this.findMin(target.right);
+              let minResult=this.find(minNum);
+              // leaf node
+              if (!minResult.node.right){
+                target.value=minNum;
+                minResult.parent.left=null;
+                return
+              } else {
+                // has right node
+                target.value=minNum;
+                minResult.parent.left=minResult.node.right;
+                return
+              }                
           }
         }
       }
@@ -285,6 +296,21 @@ function BinarySearchTree() {
       return cur.value;
     }
 
+    this.invert=()=>{
+      if (!this.root) return null;
+      let cur = this.root;
+      let nextNodes=[];
+      nextNodes.push(cur);
+      while (nextNodes.length>0){
+        let tempNodes=[];
+        nextNodes.forEach((node)=>{
+          node.left ? tempNodes.push(node.left) :'';
+          node.right ? tempNodes.push(node.right) : '';
+          [node.left,node.right]=[node.right,node.left];
+        })
+        nextNodes=tempNodes;
+      }
+    }
     
 }
 
@@ -305,6 +331,12 @@ bs.add(5)
 bs.add(8)
 bs.add(10)
 bs.add(4)
-bs.remove(5)
+bs.add(6)
+bs.add(7)
+bs.add(9)
+bs.add(11)
+bs.invert()
+console.log(bs.root)
+// console.log(bs.root.right)
 // console.log(bs.find(8))
 // console.log(bs.root)
