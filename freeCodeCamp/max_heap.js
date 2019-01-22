@@ -1,13 +1,12 @@
 var MaxHeap = function() {
   this.heap=[null];
-  this.add=(value)=>{
+  this.insert=(value)=>{
     this.heap.push(value);
     let idx=this.heap.length-1;
     let newValue=this.heap[idx]
     let parentIdx=Math.floor(idx/2);
     let parentValue=this.heap[parentIdx];
     if (!parentValue) return;
-    // console.log(this.heap);
     while (newValue>parentValue){
       [this.heap[idx],this.heap[parentIdx]]=[this.heap[parentIdx],this.heap[idx]];
       idx=parentIdx;
@@ -16,20 +15,33 @@ var MaxHeap = function() {
       parentValue=this.heap[parentIdx];
       if (!parentValue) return
     }
-    // console.log(this.heap)
   }
+
+  this.print=()=>{
+    return this.heap.slice(1)
+  }
+
+  this.remove=()=>{
+    let last=this.heap.pop()
+    this.heap.splice(1,0,last)
+    console.log(this.heap)
+  }
+
   // change code below this line
   // change code above this line
 };
 
 let mh=new MaxHeap()
-mh.add(56)
-mh.add(78)
-mh.add(100)
-mh.add(120)
-mh.add(300)
-// console.log(mh.heap)
-
-let k=[1,2,3];
-let b=null;
-console.log(5>b)
+mh.insert(56)
+mh.insert(78)
+mh.insert(100)
+mh.insert(120)
+mh.insert(300)
+mh.insert(110)
+mh.insert(400)
+mh.insert(500)
+console.log(mh.print())
+mh.remove()
+// let test=new MaxHeap();
+// test.insert(50); test.insert(100); test.insert(700); test.insert(32); test.insert(51)
+// console.log(test.print())
